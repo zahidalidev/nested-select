@@ -73,7 +73,7 @@ const App = () => {
     setData(copyData)
   }
 
-  const handleCheck = (checked: boolean, index: number, index2: number) => {
+  const handleCheck = (index: number, index2: number) => {
     let copyData = [...AllData]
     copyData[index].data[index2].selected = !copyData[index].data[index2].selected
     setData(copyData)
@@ -81,6 +81,7 @@ const App = () => {
 
   return (
     <div className='App' style={{ marginTop: '10rem', marginLeft: '50rem' }}>
+      {/* main select component */}
       <Box
         component='form'
         sx={{
@@ -110,7 +111,7 @@ const App = () => {
                       {item.itemName}
                     </Typography>
                     <Checkbox
-                      onChange={(event) => handleCheck(event.target.checked, index, index2)}
+                      onChange={() => handleCheck(index, index2)}
                       {...label}
                       checked={item.selected}
                     />
@@ -120,6 +121,7 @@ const App = () => {
           ))}
         </Box>
       </Box>
+      {/* backdrop to close drop-down */}
       <Box
         onClick={() => setShow(false)}
         hidden={!show}
@@ -129,10 +131,9 @@ const App = () => {
           right: '0px',
           top: '0px',
           bottom: '0px',
-          zIndex: 2
+          zIndex: 2,
         }}
       />
-      <TextField id='outlined-basic' label='Outlined' variant='outlined' />
     </div>
   )
 }

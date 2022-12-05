@@ -1,25 +1,16 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-import Modal from '@mui/material/Modal'
 import Checkbox from '@mui/material/Checkbox'
 
 const style = {
-  position: 'relative',
-  // top: '50%',
-  // left: '50%',
-  top: '4.7rem',
-  left: '7rem',
-  right: '0px',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
+  position: 'absolute',
   border: '1px solid grey',
   borderRadius: '5px',
-  boxShadow: 24,
-  // p: 4,
+  boxShadow: 6,
+  zIndex: 100,
+  backgroundColor: 'white',
 }
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
@@ -32,6 +23,16 @@ const dummyData = [
       {
         selected: false,
         itemName: 'item1',
+        data: [
+          {
+            selected: false,
+            itemName: 'item5',
+          },
+          {
+            selected: true,
+            itemName: 'item6',
+          },
+        ],
       },
       {
         selected: false,
@@ -58,10 +59,7 @@ const dummyData = [
 const App = () => {
   const [AllData] = useState(dummyData)
   const [data, setData] = useState(dummyData)
-  const [open, setOpen] = useState(false)
-
-  const handleOpen = () => setOpen(true)
-  const closeModal = () => setOpen(false)
+  const [show, setShow] = useState(false)
 
   const handleCollapse = (index: number) => {
     const copyData = [...data]
@@ -86,19 +84,20 @@ const App = () => {
       <Box
         component='form'
         sx={{
-          '& > :not(style)': { m: 1, width: '25ch' },
+          '& > :not(style)': { width: '50ch' },
         }}
         noValidate
         autoComplete='off'
       >
         <TextField
           onChange={(event) => handleSearch(event.target.value)}
-          onClickCapture={() => setOpen(true)}
+          onFocus={() => setShow(true)}
+          onBlur={() => setShow(false)}
           id='outlined-basic'
           label='Outlined'
           variant='outlined'
         />
-        <Box sx={style}>
+        <Box hidden={!show} sx={style}>
           {data.map((items, index) => (
             <Box key={index} style={{ margin: '10px' }}>
               <Typography style={{ cursor: 'pointer' }} onClick={() => handleCollapse(index)}>
@@ -110,13 +109,18 @@ const App = () => {
                     <Typography key={index2} style={{ marginLeft: '10px' }}>
                       {item.itemName}
                     </Typography>
-                    <Checkbox onChange={(event) => handleCheck(event.target.checked, index, index2)} {...label} checked={item.selected} />
+                    <Checkbox
+                      onChange={(event) => handleCheck(event.target.checked, index, index2)}
+                      {...label}
+                      checked={item.selected}
+                    />
                   </Box>
                 ))}
             </Box>
           ))}
         </Box>
       </Box>
+      <TextField id='outlined-basic' label='Outlined' variant='outlined' />
     </div>
   )
 }

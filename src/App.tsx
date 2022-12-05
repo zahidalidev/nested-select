@@ -74,7 +74,7 @@ const App = () => {
   }
 
   const handleCheck = (index: number, index2: number) => {
-    let copyData = [...AllData]
+    let copyData = [...data]
     copyData[index].data[index2].selected = !copyData[index].data[index2].selected
     setData(copyData)
   }

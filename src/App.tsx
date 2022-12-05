@@ -92,10 +92,10 @@ const App = () => {
         <TextField
           onChange={(event) => handleSearch(event.target.value)}
           onFocus={() => setShow(true)}
-          onBlur={() => setShow(false)}
           id='outlined-basic'
           label='Outlined'
           variant='outlined'
+          style={{ zIndex: 3 }}
         />
         <Box hidden={!show} sx={style}>
           {data.map((items, index) => (
@@ -120,6 +120,18 @@ const App = () => {
           ))}
         </Box>
       </Box>
+      <Box
+        onClick={() => setShow(false)}
+        hidden={!show}
+        style={{
+          position: 'absolute',
+          left: '0px',
+          right: '0px',
+          top: '0px',
+          bottom: '0px',
+          zIndex: 2
+        }}
+      />
       <TextField id='outlined-basic' label='Outlined' variant='outlined' />
     </div>
   )
